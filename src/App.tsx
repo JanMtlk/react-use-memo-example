@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo } from 'react';
 
 function App() {
+  const [refreshCounter, setRefreshCounter] = React.useState(1);
+  //use memo example
+  const count = useMemo(() => {
+    console.log('useMemo called');
+    for (let i = 0; i < 2000000000; i++) {
+      // simulate expensive operation
+    }
+    return 1;
+  }, []);
+
+  const countWithoutMemo = () => {
+    console.log('no memo called');
+    for (let i = 0; i < 2000000000; i++) {
+      // simulate expensive operation
+    }
+    return 1;
+  }
+  //! we can see, that the operation 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {count}, 
+      {countWithoutMemo()}
+      <button onClick={() => setRefreshCounter(refreshCounter + 1)}>
+        Refresh
+      </button>
     </div>
   );
 }
